@@ -20,4 +20,13 @@ WORKDIR /app
 
 COPY . /app
 
-ENTRYPOINT ["php", "artisan", "octane:frankenphp"]
+# Copy existing application directory permissions
+COPY --chown=www-data:www-data . /app
+
+# Change the owner of the application directory to www-data
+RUN chown -R www-data:www-data /app/storage /app/bootstrap/cache
+
+EXPOSE 5173
+EXPOSE 80 443
+# ENTRYPOINT ["php", "artisan", "octane:frankenphp"]
+# ENTRYPOINT ["php", "artisan", "octane:frankenphp", "--watch"]
